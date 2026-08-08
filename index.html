@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Bridge Scorer</title>
+    <meta
+      name="description"
+      content="A fast, elegant Contract Bridge scorer. Enter the call and the tricks won — it does the points and explains every one of them."
+    />
+    <meta name="theme-color" content="#f4f1ea" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0c0b0a" media="(prefers-color-scheme: dark)" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <script>
+      // Set the theme before first paint so the page never flashes the wrong one.
+      (function () {
+        try {
+          var stored = localStorage.getItem('bridge-scorer:theme:v1');
+          var dark =
+            stored === 'dark' ||
+            ((!stored || stored === 'system') &&
+              window.matchMedia &&
+              window.matchMedia('(prefers-color-scheme: dark)').matches);
+          document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

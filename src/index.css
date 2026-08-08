@@ -1,0 +1,173 @@
+@import 'tailwindcss';
+
+/*
+  Ink & paper in light, obsidian & brass in dark.
+  Every colour is a runtime custom property so the theme can flip without a
+  rebuild; `@theme inline` makes the Tailwind utilities point at the vars
+  rather than baking values in.
+*/
+
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+:root {
+  --paper: #f4f1ea;
+  --surface: #fffdf8;
+  --surface-2: #ebe5d9;
+  --surface-3: #e1dacb;
+  --ink: #17140f;
+  --ink-2: #4e463a;
+  --ink-3: #8a8073;
+  --rule: #ddd5c5;
+  --rule-strong: #c6bda9;
+  --brass: #8f6b18;
+  --brass-ink: #6d5111;
+  --brass-soft: #f0e6cb;
+  --red: #b02f26;
+  --red-soft: #f7e3e0;
+  --green: #2a5f46;
+  --green-soft: #dfeae3;
+  --shadow-color: 38 30 18;
+  --shadow-strength: 0.09;
+  color-scheme: light;
+}
+
+[data-theme='dark'] {
+  --paper: #0c0b0a;
+  --surface: #17150f;
+  --surface-2: #201d16;
+  --surface-3: #2a261d;
+  --ink: #f5f1e6;
+  --ink-2: #c3bbaa;
+  --ink-3: #8b8274;
+  --rule: #2e2a21;
+  --rule-strong: #443e31;
+  --brass: #d4ab41;
+  --brass-ink: #e6c268;
+  --brass-soft: #38300f;
+  --red: #e4685b;
+  --red-soft: #3a1d19;
+  --green: #63b28a;
+  --green-soft: #14291f;
+  --shadow-color: 0 0 0;
+  --shadow-strength: 0.5;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-rule: var(--rule);
+  --color-rule-strong: var(--rule-strong);
+  --color-brass: var(--brass);
+  --color-brass-ink: var(--brass-ink);
+  --color-brass-soft: var(--brass-soft);
+  --color-red: var(--red);
+  --color-red-soft: var(--red-soft);
+  --color-green: var(--green);
+  --color-green-soft: var(--green-soft);
+
+  --font-display: 'Fraunces', ui-serif, Georgia, 'Times New Roman', serif;
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue',
+    Arial, sans-serif;
+
+  --radius-card: 14px;
+}
+
+@layer base {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    /* Keeps the layout still when a sheet locks scrolling. */
+    scrollbar-gutter: stable;
+  }
+
+  body {
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-feature-settings: 'cv05' 1;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overscroll-behavior-y: none;
+  }
+
+  /* Numerals must never jitter as scores change. */
+  .tnum {
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+
+  .display {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    font-variation-settings: 'SOFT' 0, 'WONK' 0;
+    letter-spacing: -0.015em;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--brass);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* The paper grain: a barely-there texture so large fills are not flat. */
+  .grain::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+    background-image: radial-gradient(
+      circle at 1px 1px,
+      color-mix(in srgb, var(--ink) 7%, transparent) 1px,
+      transparent 0
+    );
+    background-size: 4px 4px;
+  }
+
+  [data-theme='dark'] .grain::before {
+    opacity: 0.35;
+  }
+}
+
+@layer components {
+  .card {
+    background-color: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-card);
+    box-shadow: 0 1px 2px rgb(var(--shadow-color) / calc(var(--shadow-strength) * 0.6));
+  }
+
+  /* The hairline used between scorecard rows and around the score columns. */
+  .hairline {
+    border-color: var(--rule);
+  }
+
+  .label {
+    font-size: 11px;
+    line-height: 1;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    font-weight: 600;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
