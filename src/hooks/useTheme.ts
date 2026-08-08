@@ -11,7 +11,9 @@ function readStored(): ThemeChoice {
   } catch {
     /* private browsing */
   }
-  return 'system';
+  // The app opens in light mode by default, regardless of OS preference,
+  // until the user picks a theme explicitly with the toggle.
+  return 'light';
 }
 
 function systemPrefersDark(): boolean {

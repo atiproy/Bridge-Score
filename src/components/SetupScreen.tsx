@@ -5,6 +5,7 @@ import { useMatch } from '../store/MatchContext';
 import { cx } from '../lib/format';
 import { ChevronIcon, MoonIcon, SunIcon } from './Icons';
 import { RuleToggles } from './RuleToggles';
+import { AthleteMark } from './AthleteMark';
 import type { useTheme } from '../hooks/useTheme';
 
 const TEAM_PLACEHOLDER: Record<TeamId, string> = { A: 'We', B: 'They' };
@@ -57,7 +58,13 @@ export function SetupScreen({ theme }: { theme: ReturnType<typeof useTheme> }) {
 
   return (
     <div className="mx-auto w-full max-w-lg px-5 pb-28 pt-6 sm:pt-10">
-      <div className="mb-2 flex justify-end">
+      <div className="mb-2 flex items-center justify-between">
+        <div className="flex items-center gap-1.5 opacity-70">
+          <AthleteMark className="h-4 w-4" />
+          <span className="label" style={{ letterSpacing: '0.14em' }}>
+            Athelite
+          </span>
+        </div>
         <button
           type="button"
           onClick={theme.toggle}

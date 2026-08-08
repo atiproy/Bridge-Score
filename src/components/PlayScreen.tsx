@@ -4,6 +4,7 @@ import { matchPreset } from '../engine/presets';
 import type { Deal, RuleSet, ScoredDeal, TeamId } from '../engine/types';
 import { useMatch } from '../store/MatchContext';
 import { cx, formatPoints, teamName } from '../lib/format';
+import { AthleteMark } from './AthleteMark';
 import { DealEntry } from './DealEntry';
 import { RuleToggles } from './RuleToggles';
 import { Scorecard } from './Scorecard';
@@ -107,11 +108,14 @@ export function PlayScreen({ theme }: Props) {
         <button
           type="button"
           onClick={() => dispatch({ type: 'edit-setup' })}
-          className="display truncate text-[19px] font-semibold tracking-tight transition-opacity hover:opacity-70"
+          className="flex min-w-0 items-center gap-2 transition-opacity hover:opacity-70"
           title="Edit names and rules"
           aria-label="Bridge Scorer — edit names and rules"
         >
-          Bridge Scorer
+          <AthleteMark className="h-5 w-5 shrink-0 opacity-70" />
+          <span className="display truncate text-[19px] font-semibold tracking-tight">
+            Bridge Scorer
+          </span>
         </button>
 
         <div className="flex items-center gap-0.5">
