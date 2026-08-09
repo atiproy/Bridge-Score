@@ -6,6 +6,7 @@ import { useMatch } from '../store/MatchContext';
 import { cx, formatPoints, teamName } from '../lib/format';
 import { AthleteMark } from './AthleteMark';
 import { DealEntry } from './DealEntry';
+import { InstallControl } from './InstallControl';
 import { RuleToggles } from './RuleToggles';
 import { Scorecard } from './Scorecard';
 import { ScoreHeader } from './ScoreHeader';
@@ -145,6 +146,7 @@ export function PlayScreen({ theme }: Props) {
           <IconButton label="Share the scorecard" onClick={() => setShowShare(true)}>
             <ShareIcon />
           </IconButton>
+          <InstallControl />
           <IconButton
             label={theme.resolved === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
             onClick={theme.toggle}

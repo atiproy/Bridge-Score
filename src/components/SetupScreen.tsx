@@ -6,6 +6,8 @@ import { cx } from '../lib/format';
 import { ChevronIcon, MoonIcon, SunIcon } from './Icons';
 import { RuleToggles } from './RuleToggles';
 import { AthleteMark } from './AthleteMark';
+import { InstallCallout } from './InstallCallout';
+import { InstallControl } from './InstallControl';
 import type { useTheme } from '../hooks/useTheme';
 
 const TEAM_PLACEHOLDER: Record<TeamId, string> = { A: 'We', B: 'They' };
@@ -65,17 +67,20 @@ export function SetupScreen({ theme }: { theme: ReturnType<typeof useTheme> }) {
             Athelite
           </span>
         </div>
-        <button
-          type="button"
-          onClick={theme.toggle}
-          aria-label={
-            theme.resolved === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'
-          }
-          title={theme.resolved === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
-          className="rounded-lg p-2.5 text-ink-3 transition-colors hover:text-ink"
-        >
-          {theme.resolved === 'dark' ? <SunIcon /> : <MoonIcon />}
-        </button>
+        <div className="flex items-center gap-0.5">
+          <InstallControl />
+          <button
+            type="button"
+            onClick={theme.toggle}
+            aria-label={
+              theme.resolved === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'
+            }
+            title={theme.resolved === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+            className="rounded-lg p-2.5 text-ink-3 transition-colors hover:text-ink"
+          >
+            {theme.resolved === 'dark' ? <SunIcon /> : <MoonIcon />}
+          </button>
+        </div>
       </div>
 
       <header className="mb-8 text-center">
@@ -97,6 +102,8 @@ export function SetupScreen({ theme }: { theme: ReturnType<typeof useTheme> }) {
             : 'Name the two sides, pick how you score, and start dealing.'}
         </p>
       </header>
+
+      <InstallCallout />
 
       <section className="mb-6">
         <h2 className="label mb-3">The two sides</h2>
