@@ -314,6 +314,16 @@ export function scoreDeal(
           slam,
           `Bid and made all ${deal.level === 7 ? '13' : '12'} tricks, ${declarerVul ? 'vulnerable' : 'not vulnerable'}`,
         );
+      } else if (deal.level < 6 && won >= 12) {
+        // The tricks for a slam were taken but the slam itself was never bid.
+        // The bonus rewards the bid, not just the trick count, so this is a
+        // deliberate zero — but it looks exactly like a bug from the outside.
+        const missedGrand = won >= 13;
+        warnings.push(
+          `Bidding ${missedGrand ? 7 : 6}${STRAIN_LABEL[deal.strain]} instead would have earned a ${
+            missedGrand ? 'grand' : 'small'
+          } slam bonus — it only counts when the slam is actually bid, not just made.`,
+        );
       }
     }
 

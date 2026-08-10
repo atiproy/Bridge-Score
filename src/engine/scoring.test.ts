@@ -316,6 +316,42 @@ describe('failed contracts pay the defenders', () => {
   });
 });
 
+describe('slam bonus requires bidding the slam, not just taking the tricks', () => {
+  it('pays nothing extra for taking 12 tricks in a contract below level 6', () => {
+    // 4S making 12 (two overtricks): no slam bonus, just trick + overtricks + game.
+    const s = scoreDeal(makeDeal({ level: 4, strain: 'S', tricksWon: 12 }), PARTY, NONE);
+    expect(s.A.total).toBe(120 + 2 * 30 + 300);
+    expect(s.lines.some((l) => /slam/i.test(l.label))).toBe(false);
+  });
+
+  it('explains why, with a warning naming the level that would have qualified', () => {
+    const s = scoreDeal(makeDeal({ level: 4, strain: 'S', tricksWon: 12 }), PARTY, NONE);
+    expect(s.warnings).toHaveLength(1);
+    expect(s.warnings[0]).toMatch(/bidding 6♠.*small slam/i);
+  });
+
+  it('names the grand slam when all thirteen tricks were taken', () => {
+    const s = scoreDeal(makeDeal({ level: 1, strain: 'NT', tricksWon: 13 }), PARTY, NONE);
+    expect(s.warnings[0]).toMatch(/bidding 7NT.*grand slam/i);
+  });
+
+  it('does not warn when the slam was actually bid and paid', () => {
+    const s = scoreDeal(makeDeal({ level: 6, strain: 'S', tricksWon: 12 }), PARTY, NONE);
+    expect(s.warnings).toHaveLength(0);
+  });
+
+  it('does not warn when the contract failed', () => {
+    const s = scoreDeal(makeDeal({ level: 4, strain: 'S', tricksWon: 8 }), PARTY, NONE);
+    expect(s.warnings).toHaveLength(0);
+  });
+
+  it('stays silent when slam bonuses are switched off entirely', () => {
+    const noSlam = { ...PARTY, slamBonuses: false };
+    const s = scoreDeal(makeDeal({ level: 4, strain: 'S', tricksWon: 12 }), noSlam, NONE);
+    expect(s.warnings).toHaveLength(0);
+  });
+});
+
 describe('Rubber differs from per-deal scoring', () => {
   it('pays no game bonus on the deal', () => {
     // The 300 game bonus is replaced by the rubber bonus at the end.
