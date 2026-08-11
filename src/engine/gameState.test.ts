@@ -76,7 +76,7 @@ describe('vulnerability cycles', () => {
 
   it('honours a per-deal override in duplicate mode', () => {
     const deals = [d('A', 4, 'H', 10, { vulnerabilityOverride: { A: true, B: true } })];
-    const state = computeGame(deals, PARTY);
+    const state = computeGame(deals, { ...PARTY, vulnerability: true });
     expect(state.deals[0].vulnerability).toEqual({ A: true, B: true });
     expect(state.totals.A).toBe(620);
   });

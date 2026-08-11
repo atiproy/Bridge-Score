@@ -17,6 +17,8 @@ import type { Deal, Level, Risk, RuleSet, Strain, TeamVulnerability } from './ty
 const PARTY: RuleSet = presetById('party').rules;
 const RUBBER: RuleSet = presetById('rubber-full').rules;
 const CASUAL: RuleSet = presetById('casual').rules;
+/** Party Bridge with vulnerability switched on, for cases that exercise it directly. */
+const VULN: RuleSet = { ...PARTY, vulnerability: true };
 
 const NONE: TeamVulnerability = { A: false, B: false };
 const A_VUL: TeamVulnerability = { A: true, B: false };
@@ -179,7 +181,7 @@ describe('full deal scores, per-deal (Party) rules', () => {
   });
 
   it('4H made exactly, vulnerable, is 620', () => {
-    expect(net({ level: 4, strain: 'H', tricksWon: 10 }, PARTY, A_VUL)).toEqual({
+    expect(net({ level: 4, strain: 'H', tricksWon: 10 }, VULN, A_VUL)).toEqual({
       A: 620,
       B: 0,
     });
@@ -187,7 +189,7 @@ describe('full deal scores, per-deal (Party) rules', () => {
 
   it('3NT made exactly is 400 / 600', () => {
     expect(net({ level: 3, strain: 'NT', tricksWon: 9 })).toEqual({ A: 400, B: 0 });
-    expect(net({ level: 3, strain: 'NT', tricksWon: 9 }, PARTY, A_VUL)).toEqual({
+    expect(net({ level: 3, strain: 'NT', tricksWon: 9 }, VULN, A_VUL)).toEqual({
       A: 600,
       B: 0,
     });
@@ -210,7 +212,7 @@ describe('full deal scores, per-deal (Party) rules', () => {
 
   it('small slam in spades is 980 / 1430', () => {
     expect(net({ level: 6, strain: 'S', tricksWon: 12 })).toEqual({ A: 980, B: 0 });
-    expect(net({ level: 6, strain: 'S', tricksWon: 12 }, PARTY, A_VUL)).toEqual({
+    expect(net({ level: 6, strain: 'S', tricksWon: 12 }, VULN, A_VUL)).toEqual({
       A: 1430,
       B: 0,
     });
@@ -218,7 +220,7 @@ describe('full deal scores, per-deal (Party) rules', () => {
 
   it('grand slam in No Trump is 1520 / 2220', () => {
     expect(net({ level: 7, strain: 'NT', tricksWon: 13 })).toEqual({ A: 1520, B: 0 });
-    expect(net({ level: 7, strain: 'NT', tricksWon: 13 }, PARTY, A_VUL)).toEqual({
+    expect(net({ level: 7, strain: 'NT', tricksWon: 13 }, VULN, A_VUL)).toEqual({
       A: 2220,
       B: 0,
     });
@@ -252,7 +254,7 @@ describe('full deal scores, per-deal (Party) rules', () => {
       B: 0,
     });
     expect(
-      net({ level: 4, strain: 'S', risk: 'doubled', tricksWon: 10 }, PARTY, A_VUL),
+      net({ level: 4, strain: 'S', risk: 'doubled', tricksWon: 10 }, VULN, A_VUL),
     ).toEqual({ A: 790, B: 0 });
   });
 
@@ -262,7 +264,7 @@ describe('full deal scores, per-deal (Party) rules', () => {
       B: 0,
     });
     expect(
-      net({ level: 4, strain: 'H', risk: 'doubled', tricksWon: 11 }, PARTY, A_VUL),
+      net({ level: 4, strain: 'H', risk: 'doubled', tricksWon: 11 }, VULN, A_VUL),
     ).toEqual({ A: 990, B: 0 });
   });
 });
@@ -278,13 +280,13 @@ describe('failed contracts pay the defenders', () => {
 
   it('uses the declarer vulnerability, not the defender', () => {
     // A declares and is vulnerable: 100 a trick.
-    expect(net({ level: 4, strain: 'H', tricksWon: 8 }, PARTY, A_VUL)).toEqual({
+    expect(net({ level: 4, strain: 'H', tricksWon: 8 }, VULN, A_VUL)).toEqual({
       A: 0,
       B: 200,
     });
     // B declares while A is the vulnerable side: B is not vulnerable, so 50.
     expect(
-      net({ level: 4, strain: 'H', tricksWon: 8, declarer: 'B' }, PARTY, A_VUL),
+      net({ level: 4, strain: 'H', tricksWon: 8, declarer: 'B' }, VULN, A_VUL),
     ).toEqual({ A: 100, B: 0 });
   });
 
@@ -298,13 +300,13 @@ describe('failed contracts pay the defenders', () => {
       B: 300,
     });
     expect(
-      net({ level: 4, strain: 'H', risk: 'doubled', tricksWon: 8 }, PARTY, ALL_VUL),
+      net({ level: 4, strain: 'H', risk: 'doubled', tricksWon: 8 }, VULN, ALL_VUL),
     ).toEqual({ A: 0, B: 500 });
   });
 
   it('taking zero tricks in 7NT redoubled vulnerable is 7600', () => {
     expect(
-      net({ level: 7, strain: 'NT', risk: 'redoubled', tricksWon: 0 }, PARTY, ALL_VUL),
+      net({ level: 7, strain: 'NT', risk: 'redoubled', tricksWon: 0 }, VULN, ALL_VUL),
     ).toEqual({ A: 0, B: 7600 });
   });
 

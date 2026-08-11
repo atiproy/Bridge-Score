@@ -26,10 +26,10 @@ export const PRESETS: RulePreset[] = [
     name: 'Party Bridge',
     tagline: 'Each deal scored on its own',
     detail:
-      'Every deal is settled immediately with a game or part-score bonus, exactly like duplicate scoring. Vulnerability follows the standard board cycle and can be overridden per deal. No rubber to finish, so you can stop whenever you like.',
+      'Every deal is settled immediately with a game or part-score bonus, exactly like duplicate scoring. No vulnerability by default — turn it on if your table wants the standard board cycle. No rubber to finish, so you can stop whenever you like.',
     rules: {
       mode: 'duplicate',
-      vulnerability: true,
+      vulnerability: false,
       doubles: true,
       honours: false,
       slamBonuses: true,
