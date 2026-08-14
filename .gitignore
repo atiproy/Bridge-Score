@@ -22,3 +22,15 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Android (Bubblewrap TWA project) — never commit signing material.
+android/.gradle
+android/build
+android/app/build
+android/local.properties
+android/*.keystore
+android/*.jks
+android/keystore.secrets.txt
+android/*.apk
+android/*.apk.idsig
+android/*.aab

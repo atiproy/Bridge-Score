@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.athelite.bridgescorer",
+      "sha256_cert_fingerprints": [
+        "2D:CE:3E:48:BD:2A:A3:8F:1C:1E:2D:1D:DA:04:AF:67:CD:C5:6A:D2:F9:7C:A2:34:FB:DC:55:D2:1B:7A:FB:DF"
+      ]
+    }
+  }
+]
